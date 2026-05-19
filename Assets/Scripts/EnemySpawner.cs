@@ -22,6 +22,8 @@ namespace Assets.Scripts
             var enemy = Instantiate(_prefab);
             enemy.transform.position = spawnPoint.position;
             enemy.transform.rotation = spawnPoint.rotation;
+
+            enemy.Initialize(spawnPoint.forward);
         }
 
         private IEnumerator SpawnCycle()
