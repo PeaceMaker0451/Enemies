@@ -1,23 +1,18 @@
+using Assets.Scripts;
 using UnityEngine;
 
+[RequireComponent(typeof(Mover))]
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _speed;
-    
-    private Vector3 _direction;
-    private bool _isIntialized = false;
+    private Mover _mover;
 
-    public void Initialize(Vector3 direction)
+    private void Awake()
     {
-        _direction = direction;
-        _isIntialized = true;
+        _mover = GetComponent<Mover>();
     }
-    
-    private void Update()
+
+    public void Initialize(Transform target)
     {
-        if (_isIntialized == false)
-            return;
-        
-        transform.Translate(_direction * Time.deltaTime * _speed, Space.World);
+        _mover.SetTarget(target);
     }
 }

@@ -5,8 +5,7 @@ namespace Assets.Scripts
 {
     public class EnemySpawner : MonoBehaviour
     {
-        [SerializeField] private Enemy _prefab;
-        [SerializeField] private Transform[] _spawnPoints;
+        [SerializeField] private SpawnPoint[] _spawnPoints;
         [SerializeField] private float _spawnDelay = 2f;
         
         private void Start()
@@ -17,13 +16,12 @@ namespace Assets.Scripts
         private void Spawn()
         {
             int randomSpawnPointIndex = Random.Range(0, _spawnPoints.Length);
-            Transform spawnPoint = _spawnPoints[randomSpawnPointIndex];
+            SpawnPoint spawnPoint = _spawnPoints[randomSpawnPointIndex];
             
-            var enemy = Instantiate(_prefab);
-            enemy.transform.position = spawnPoint.position;
-            enemy.transform.rotation = spawnPoint.rotation;
+            var enemy = Instantiate(spawnPoint.EnemyPrefab);
+            enemy.transform.position = spawnPoint.transform.position;
 
-            enemy.Initialize(spawnPoint.forward);
+            enemy.Initialize(spawnPoint.Target);
         }
 
         private IEnumerator SpawnCycle()
