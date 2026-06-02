@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -12,12 +12,15 @@ namespace Assets.Scripts
         private int _currentPathPoint;
         private Mover _mover;
 
+        private void Awake()
+        {
+            _mover = GetComponent<Mover>();
+        }
+
         private void Start()
         {
             if (_pathPoints.Length == 0)
-                throw new System.Exception("Точек пути не может быть 0");
-
-            _mover = GetComponent<Mover>();
+                throw new Exception("Точек пути не может быть 0");
 
             _currentPathPoint = 0;
             _mover.SetTarget(_pathPoints[_currentPathPoint]);
@@ -25,7 +28,7 @@ namespace Assets.Scripts
 
         private void Update()
         {
-            if (Vector3.Distance(transform.position, _pathPoints[_currentPathPoint].transform.position) <= _switchPathPointDistance)
+            if (Vector3.SqrMagnitude(transform.position - _pathPoints[_currentPathPoint].transform.position) <= MathF.Pow(_switchPathPointDistance, 2))
                 SwitchPathPoint();
         }
 
